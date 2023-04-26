@@ -10,9 +10,9 @@
             "includePath": [
                 "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/include",
                 "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/src",
-                "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/.pio/libdeps/teensy41/CommunicationPacks/src",
                 "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/.pio/libdeps/teensy41/CANpack/include",
                 "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/.pio/libdeps/teensy41/CANpack/src",
+                "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/.pio/libdeps/teensy41/CommunicationPacks/src",
                 "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/.pio/libdeps/teensy41/FlexCAN_T4",
                 "C:/Users/hiroa/.platformio/packages/framework-arduinoteensy/cores/teensy4",
                 "C:/Users/hiroa/.platformio/packages/framework-arduinoteensy/libraries/ADC",
@@ -121,9 +121,9 @@
                 "path": [
                     "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/include",
                     "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/src",
-                    "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/.pio/libdeps/teensy41/CommunicationPacks/src",
                     "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/.pio/libdeps/teensy41/CANpack/include",
                     "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/.pio/libdeps/teensy41/CANpack/src",
+                    "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/.pio/libdeps/teensy41/CommunicationPacks/src",
                     "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/.pio/libdeps/teensy41/FlexCAN_T4",
                     "C:/Users/hiroa/.platformio/packages/framework-arduinoteensy/cores/teensy4",
                     "C:/Users/hiroa/.platformio/packages/framework-arduinoteensy/libraries/ADC",

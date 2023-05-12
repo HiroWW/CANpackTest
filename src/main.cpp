@@ -29,18 +29,15 @@ void loop() {
 
   can0.events();
   if (loopCount % 10000 == 0){
-    Serial.println("Tail to Master ");
-    Serial.print("gyro[0] = "); Serial.println(mp.gyro[0]);
-    Serial.print("gyro[1] = "); Serial.println(mp.gyro[1]);
-    Serial.print("gyro[2] = "); Serial.println(mp.gyro[2]);
-    Serial.print("gyro[3] = "); Serial.println(mp.gyro[3]);
-    Serial.print("apflag = "); Serial.println(mp.apflag);
-    Serial.println("Tail to log ");
-    Serial.print("gyro[0] = "); Serial.println(lp.gyro[0]);
-    Serial.print("gyro[1] = "); Serial.println(lp.gyro[1]);
-    Serial.print("gyro[2] = "); Serial.println(lp.gyro[2]);
-    Serial.print("acc = "); Serial.println(lp.acc);
-    Serial.print("apflag = "); Serial.println(lp.apflag);
+    Serial.println("Master To IF ");
+    Serial.print("attituded_dt = "); Serial.println(mip.attitude_dt);
+    Serial.print("main_dt = "); Serial.println(mip.main_dt);
+    Serial.print("control_dt = "); Serial.println(mip.control_dt);
+    Serial.println("IF To Master ");
+    Serial.print("strain[0] = "); Serial.println(imp.strain[0]);
+    Serial.print("strain[1] = "); Serial.println(imp.strain[1]);
+    Serial.print("strain[2] = "); Serial.println(imp.strain[2]);
+    Serial.print("strain[3] = "); Serial.println(imp.strain[3]);
   }
   loopCount++ ;
 

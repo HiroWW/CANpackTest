@@ -1,8 +1,12 @@
 #pragma once
 // #include "CommunicationPacks.hpp"
-#include "../.pio/libdeps/teensy41/CommunicationPacks/src/CommunicationPacks.hpp"
+#include "../.pio/libdeps/teensy41/CommunicationPacks/include/CommunicationPacks.hpp"
 
-extern Tail2Master mp;
-extern Tail2Log lp;
-extern pack* p[2];
-extern int len[2];
+extern CAN::MasterToIF mip;
+extern CAN::IFToMaster imp;
+extern CAN::MasterToTail mtp;
+extern CAN::TailToMaster tmp;
+extern CAN::TailToIF tip;
+// extern CAN::
+extern CAN::pack* p[5];
+extern int len[5];

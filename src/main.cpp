@@ -29,11 +29,11 @@ void loop() {
 
   can0.events();
   if (loopCount % 10000 == 0){
-    Serial.println("Master To IF ");
+    Serial.println("Master To IF sending content");
     Serial.print("attituded_dt = "); Serial.println(mip.attitude_dt);
     Serial.print("main_dt = "); Serial.println(mip.main_dt);
     Serial.print("control_dt = "); Serial.println(mip.control_dt);
-    Serial.println("IF To Master ");
+    Serial.println("IF To Master sending content");
     Serial.print("strain[0] = "); Serial.println(imp.strain[0]);
     Serial.print("strain[1] = "); Serial.println(imp.strain[1]);
     Serial.print("strain[2] = "); Serial.println(imp.strain[2]);

@@ -10,20 +10,27 @@ void loop() {
   // 送信か受信のどちらかをコメントアウトする
 
   // 二つのpackの中身を定義してCANバスに送信する
-
-  // setup Master to Interface pack
-  mip.attitude_dt = 11.1f;
-  mip.main_dt = 22.2f;
-  mip.control_dt = 33.3f;
-  // send to can bus
-  CANpack0.send(0,&mip);
+  // // setup Master to Interface pack
+  // mip.attitude_dt = 11.1f;
+  // mip.main_dt = 22.2f;
+  // mip.control_dt = 33.3f;
+  // // send to can bus
+  // CANpack0.send(0,&mip);
+  // Serial.println("Master to IF sending success");
   
-  //setup Interface to Master pack
-  for (int i = 0; i < 4 ; i++ ){
-    imp.strain[i] = (i + 1) * 100.0f;
-  }
-  // send to can bus
-  CANpack0.send(1,&imp);
+  // // setup Interface to Master pack
+  // for (int i = 0; i < 4 ; i++ ){
+  //   imp.strain[i] = (i + 1) * 100.0f;
+  // }
+  // // send to can bus
+  // CANpack0.send(1,&imp);
+  // Serial.println("IF to Master sending success");
+
+  // setup Master to Tail pack and send it to CAN bus
+  mtp.updateTime = 11.1f;
+  mtp.drCommand = 22.2f;
+  CANpack0.send(2,&mtp);
+  Serial.println("Master to Tail : send SUCCESS");
 
   // 割り込みで受信して内容をシリアルモニタに表示
 

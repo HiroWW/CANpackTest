@@ -32,11 +32,11 @@ void loop() {
   // CANpack0.send(ID,&lp);
 
   can0.events();
-  if (loopCount % 10000 == 0){
-    // Serial.println("Master To IF sending content");
-    // Serial.print("attituded_dt = "); Serial.println(mip.attitude_dt);
-    // Serial.print("main_dt = "); Serial.println(mip.main_dt);
-    // Serial.print("control_dt = "); Serial.println(mip.control_dt);
+  if (Serial.availableForWrite() > 0){
+    Serial.println("Master To IF sending content");
+    Serial.print("attituded_dt = "); Serial.println(mip.attitude_dt);
+    Serial.print("main_dt = "); Serial.println(mip.main_dt);
+    Serial.print("control_dt = "); Serial.println(mip.control_dt);
     Serial.println("IF To Master sending content");
     Serial.print("strain[0] = "); Serial.println(imp.strain[0]);
     Serial.print("strain[1] = "); Serial.println(imp.strain[1]);
@@ -61,7 +61,7 @@ void loop() {
   // }
   // beforeStrain = imp.strain[0];
 
-  // Reset If to Master pack content
+  //Reset If to Master pack content
   // for (int i = 0; i < 5; i++){
   //   imp.strain[i] = 0.0f;
   // }

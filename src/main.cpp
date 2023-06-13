@@ -32,7 +32,8 @@ void loop() {
   // CANpack0.send(ID,&lp);
 
   can0.events();
-  if (Serial.availableForWrite() > 0){
+  //if (Serial.availableForWrite() > 0){
+  if (loopCount % 10000 == 0){
     Serial.println("Master To IF sending content");
     Serial.print("attituded_dt = "); Serial.println(mip.attitude_dt);
     Serial.print("main_dt = "); Serial.println(mip.main_dt);
@@ -43,13 +44,13 @@ void loop() {
     Serial.print("strain[2] = "); Serial.println(imp.strain[2]);
     Serial.print("strain[3] = "); Serial.println(imp.strain[3]);
     Serial.print("strain[4] = "); Serial.println(imp.strain[4]);
-    // Serial.println("Master to Tail content");
-    // Serial.println(mtp.updateTime);
-    // Serial.println(mtp.drCommand);
-    // Serial.println(mtp.deCommand);
+    Serial.println("Master to Tail content");
+    Serial.print("updateTime"); Serial.println(mtp.updateTime);
+    Serial.print("drCommand"); Serial.println(mtp.drCommand);
+    Serial.print("deCommand"); Serial.println(mtp.deCommand);
     // Serial.println(mtp.err_state[1]);
     // Serial.println(mtp.gravity[2]);
-    // Serial.println(mtp.mode);
+    Serial.print("mtp.mode"); Serial.println(mtp.mode);
   }
 
   // Check when receiving the data fails

@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include "global.hpp"
 #include "CANpack.hpp"
+#include "print.hpp"
+
 void setup() {
   // put your setup code here, to run once:
   delay(3000);
@@ -33,28 +35,45 @@ void loop() {
 
   can0.events();
   //if (Serial.availableForWrite() > 0){
-  if (loopCount % 10000 == 0){
-    Serial.println("Master To IF sending content");
-    Serial.print("attituded_dt = "); Serial.println(mip.attitude_dt);
-    Serial.print("main_dt = "); Serial.println(mip.main_dt);
-    Serial.print("control_dt = "); Serial.println(mip.control_dt);
-    Serial.println("IF To Master sending content");
-    Serial.print("strain[0] = "); Serial.println(imp.strain[0]);
-    Serial.print("strain[1] = "); Serial.println(imp.strain[1]);
-    Serial.print("strain[2] = "); Serial.println(imp.strain[2]);
-    Serial.print("strain[3] = "); Serial.println(imp.strain[3]);
-    Serial.print("strain[4] = "); Serial.println(imp.strain[4]);
-    Serial.println("Master to Tail content");
-    Serial.print("updateTime"); Serial.println(mtp.updateTime);
-    Serial.print("drCommand"); Serial.println(mtp.drCommand);
-    Serial.print("deCommand"); Serial.println(mtp.deCommand);
-    // Serial.println(mtp.err_state[1]);
-    // Serial.println(mtp.gravity[2]);
-    Serial.print("mtp.mode"); Serial.println(mtp.mode);
-  }
+  // if (loopCount % 100000 == 0){
+  //   Serial.println("Master To IF sending content");
+  //   Serial.print("attituded_dt = "); Serial.println(mip.attitude_dt);
+  //   Serial.print("main_dt = "); Serial.println(mip.main_dt);
+  //   Serial.print("control_dt = "); Serial.println(mip.control_dt);
+  //   Serial.println("IF To Master sending content");
+  //   Serial.print("strain[0] = "); Serial.println(imp.strain[0]);
+  //   Serial.print("strain[1] = "); Serial.println(imp.strain[1]);
+  //   Serial.print("strain[2] = "); Serial.println(imp.strain[2]);
+  //   Serial.print("strain[3] = "); Serial.println(imp.strain[3]);
+  //   Serial.print("strain[4] = "); Serial.println(imp.strain[4]);
+  //   Serial.println("Master to Tail content");
+  //   Serial.print("updateTime"); Serial.println(mtp.updateTime);
+  //   Serial.print("drCommand"); Serial.println(mtp.drCommand);
+  //   Serial.print("deCommand"); Serial.println(mtp.deCommand);
+  //   // Serial.println(mtp.err_state[1]);
+  //   // Serial.println(mtp.gravity[2]);
+  //   Serial.print("mtp.mode"); Serial.println(mtp.mode);
+  // }
+  UTHAPS::println("Master To IF sending content");
+  UTHAPS::println("attituded_dt = ",mip.attitude_dt);
+  UTHAPS::println("main_dt = ", mip.main_dt);
+  UTHAPS::println("control_dt = ", mip.control_dt);
+  UTHAPS::println("IF To Master sending content");
+  UTHAPS::println("strain[0] = ", imp.strain[0]);
+  UTHAPS::println("strain[1] = ", imp.strain[1]);
+  UTHAPS::println("strain[2] = ", imp.strain[2]);
+  UTHAPS::println("strain[3] = ", imp.strain[3]);
+  UTHAPS::println("strain[4] = ", imp.strain[4]);
+  UTHAPS::println("Master to Tail content");
+  UTHAPS::println("updateTime = ", mtp.updateTime);
+  UTHAPS::println("drCommand = ", mtp.drCommand);
+  UTHAPS::println("deCommand = ", mtp.deCommand);
+  // UTHAPS::println(mtp.err_state[1]);
+  // UTHAPS::println(mtp.gravity[2]);
+  UTHAPS::println("mtp.mode = ", mtp.mode);
 
   // Check when receiving the data fails
-  // Serial.println(loopCount);
+  // UTHAPS::println(loopCount);
   // if (loopCount > 50000){
   //   if (imp.strain[0] == 0.0f && beforeStrain == 0.0f){
   //     delay(10000);

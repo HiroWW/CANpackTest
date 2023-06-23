@@ -1,6 +1,6 @@
 #pragma once
-// #include "CommunicationPacks.hpp"
-#include "../.pio/libdeps/teensy41/CommunicationPacks/include/CommunicationPacks.hpp"
+#include "CommunicationPacks.hpp"
+// #include "../.pio/libdeps/teensy41/CommunicationPacks/include/CommunicationPacks.hpp"
 
 extern CAN::MasterToIF mip;
 extern CAN::IFToMaster imp;

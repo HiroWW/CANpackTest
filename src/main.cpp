@@ -16,7 +16,7 @@ void loop() {
   mip.main_dt = 22.2f * (loopCount % 5 + 1);
   mip.control_dt = 33.3f * (loopCount % 5 + 1);
   // send to can bus
-  CANpack0.send(1,&mip);
+  CANpack0.send(0,&mip);
   Serial.println("Master to IF sending success");
   
   // setup Interface to Master pack
@@ -24,7 +24,7 @@ void loop() {
   for (int i = 0; i < 5 ; i++ ){
     imp.strain[i] = (i + 1) * 11.1f * (loopCount % 5 + 1);
   }
-  uint32_t ID = 0;
+  uint32_t ID = 1;
   CANpack0.send(ID,&imp);
   Serial.println("IF to Master : send SUCCESS");
 
@@ -39,8 +39,12 @@ void loop() {
   mtp.updateTime = 11.1f * (loopCount % 5 + 1);
   mtp.drCommand = 22.2f * (loopCount % 5 + 1);
   mtp.deCommand = 1.0f * (loopCount % 5 + 1);
-  // mtp.err_state = {};
-  // mtp.gravity = {};
+  for (int i = 0; i < 15; i++){
+    mtp.err_state[i] = 1.0f * i;
+  }
+  mtp.gravity[0] = 33.4f;
+  mtp.gravity[1] = 66.8f;
+  mtp.gravity[2] = 99.4f;
   mtp.mode = 2.0f * (loopCount % 5 + 1);
   CANpack0.send(2,&mtp);
   Serial.println("Master to Tail : send SUCCESS");

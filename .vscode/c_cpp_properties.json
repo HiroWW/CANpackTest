@@ -10,6 +10,8 @@
             "includePath": [
                 "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/include",
                 "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/src",
+                "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/.pio/libdeps/teensy41/HAPSUTils/include",
+                "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/.pio/libdeps/teensy41/HAPSUTils/src",
                 "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/.pio/libdeps/teensy41/CANpack/src",
                 "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/.pio/libdeps/teensy41/CommunicationPacks/include",
                 "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/.pio/libdeps/teensy41/CommunicationPacks",
@@ -121,6 +123,8 @@
                 "path": [
                     "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/include",
                     "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/src",
+                    "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/.pio/libdeps/teensy41/HAPSUTils/include",
+                    "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/.pio/libdeps/teensy41/HAPSUTils/src",
                     "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/.pio/libdeps/teensy41/CANpack/src",
                     "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/.pio/libdeps/teensy41/CommunicationPacks/include",
                     "C:/Users/hiroa/Documents/PlatformIO/Projects/CANpackTest/.pio/libdeps/teensy41/CommunicationPacks",

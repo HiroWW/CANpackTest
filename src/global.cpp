@@ -7,7 +7,7 @@ CAN::TailToMaster tmp;
 CAN::TailToIF tip;
 
 CAN::pack* p[5] = {&mip,&imp,&mtp,&tmp,&tip};
-int len[5] = {sizeof(mip), sizeof(imp), sizeof(mtp), sizeof(tmp), sizeof(tip)};
+int len[5] = {sizeof(mip), sizeof(imp),sizeof(mtp), sizeof(tmp), sizeof(tip)};
 
 // Tail2Master mp;
 // Tail2Log lp;

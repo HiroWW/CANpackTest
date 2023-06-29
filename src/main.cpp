@@ -9,34 +9,17 @@
 bool IFREAD = true;
 //--------------------------------------
 
+
 void setup() {
-  // put your setup code here, to run once:
   delay(3000);
   Serial.println("Waiting for setup...");
   CANpack0.CANsetup();
   Serial.println("CAN setup : COMPLETE");
 }
 
-int i = 0;
+int loopCount = 0;
 float beforeStrain = 1.0f;
 void loop() {
-  // put your main code here, to run repeatedly:
-  
-  //受信
-  // for (int j = 0; j < 4; j++) {
-  //   mp.gyro[j] = (j + 1) * 10;
-  // }
-  // mp.apflag = i;
-
-  // for (int j = 0; j < 3; j++) {
-  //   lp.gyro[j] = (j + 1) * 10;
-  // }
-  // lp.acc = 321.0f;
-  // lp.apflag = i;
-  // i++;
-  // int ID;
-  // ID = 1;
-  // CANpack0.send(ID,&lp);
   if (IFREAD){
     // case read
     can0.events();
@@ -62,6 +45,33 @@ void loop() {
     UTHAPS::println("gravity = ", mtp.gravity[2]);
     UTHAPS::println("mtp.mode = ", mtp.mode);
   } else {
-    // case send
+    // setup Master to Interface pack
+    mip.attitude_dt = 11.1f * (loopCount % 5 + 1);
+    mip.main_dt = 22.2f * (loopCount % 5 + 1);
+    mip.control_dt = 33.3f * (loopCount % 5 + 1);
+    CANpack0.send(0,&mip);
+    Serial.println("Master to IF sending success");
+    
+    // setup Interface to Master pack
+    for (int i = 0; i < 5 ; i++ ){
+      imp.strain[i] = (i + 1) * 11.1f * (loopCount % 5 + 1);
+    }
+    CANpack0.send(1,&imp);
+    Serial.println("IF to Master : send SUCCESS");
+
+    // setup Master to Tail pack and send it to CAN bus
+    mtp.updateTime = 11.1f * (loopCount % 5 + 1);
+    mtp.drCommand = 22.2f * (loopCount % 5 + 1);
+    mtp.deCommand = 1.0f * (loopCount % 5 + 1);
+    for (int i = 0; i < 15; i++){
+      mtp.err_state[i] = 1.0f * i;
+    }
+    mtp.gravity[0] = 33.4f;
+    mtp.gravity[1] = 66.8f;
+    mtp.gravity[2] = 99.4f;
+    mtp.mode = 2.0f * (loopCount % 5 + 1);
+    CANpack0.send(2,&mtp);
+    Serial.println("Master to Tail : send SUCCESS");
   }
+  loopCount++ ;
 }

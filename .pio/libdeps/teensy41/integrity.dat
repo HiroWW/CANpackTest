@@ -1,3 +1,4 @@
-https://github.com/tonton81/FlexCAN_T4.git
+https://github.com/UTHAPS/CANpack.git
 https://github.com/UTHAPS/CommunicationPacks.git
-https://github.com/UTHAPS/CANpack.git#19-no-depend-on-global
+https://github.com/UTHAPS/HAPSUTils.git#6-send-stack
+https://github.com/tonton81/FlexCAN_T4.git

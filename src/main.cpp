@@ -20,9 +20,9 @@ void setup() {
 int loopCount = 0;
 float beforeStrain = 1.0f;
 void loop() {
+  can0.events();
   if (IFREAD){
     // case read
-    can0.events();
     // for (int i = 0; i < 5; i++) {
     //   CANpack0.packPointer[i] = p[i];
     //   // p[i] = CANpack0.packPointer[i];

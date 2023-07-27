@@ -233,7 +233,7 @@
                 ]
             },
             "defines": [
-                "PLATFORMIO=60107",
+                "PLATFORMIO=60109",
                 "__IMXRT1062__",
                 "ARDUINO_TEENSY41",
                 "USB_SERIAL",
@@ -244,7 +244,7 @@
                 "LAYOUT_US_ENGLISH",
                 ""
             ],
-            "cppStandard": "c++14",
+            "cppStandard": "gnu++14",
             "compilerPath": "C:/Users/hiroa/.platformio/packages/toolchain-gccarmnoneeabi/bin/arm-none-eabi-gcc.exe",
             "compilerArgs": [
                 "-mthumb",

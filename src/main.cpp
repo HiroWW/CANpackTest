@@ -27,10 +27,6 @@ void loop() {
     //   CANpack0.packPointer[i] = p[i];
     //   // p[i] = CANpack0.packPointer[i];
     // }
-    UTHAPS::println("Master To IF sending content");
-    UTHAPS::println("attituded_dt = ",mip.attitude_dt);
-    UTHAPS::println("main_dt = ", mip.main_dt);
-    UTHAPS::println("control_dt = ", mip.control_dt);
     UTHAPS::println("IF To Master sending content");
     UTHAPS::println("strain[0] = ", imp.strain[0]);
     UTHAPS::println("strain[1] = ", imp.strain[1]);
@@ -44,13 +40,15 @@ void loop() {
     UTHAPS::println("err state = ", mtp.err_state[1]);
     UTHAPS::println("gravity = ", mtp.gravity[2]);
     UTHAPS::println("mtp.mode = ", mtp.mode);
-  } else {
     // setup Master to Interface pack
     mip.attitude_dt = 11.1f * (loopCount % 5 + 1);
     mip.main_dt = 22.2f * (loopCount % 5 + 1);
     mip.control_dt = 33.3f * (loopCount % 5 + 1);
     CANpack0.send(0,&mip);
     Serial.println("Master to IF sending success");
+  } else {
+
+
     
     // setup Interface to Master pack
     for (int i = 0; i < 5 ; i++ ){
@@ -72,6 +70,10 @@ void loop() {
     mtp.mode = 2.0f * (loopCount % 5 + 1);
     CANpack0.send(2,&mtp);
     Serial.println("Master to Tail : send SUCCESS");
+    UTHAPS::println("Master To IF sending content");
+    UTHAPS::println("attituded_dt = ",mip.attitude_dt);
+    UTHAPS::println("main_dt = ", mip.main_dt);
+    UTHAPS::println("control_dt = ", mip.control_dt);
   }
   loopCount++ ;
 }

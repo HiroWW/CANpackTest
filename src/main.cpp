@@ -1,32 +1,30 @@
-#include <Arduino.h>
-#include "global.hpp"
 #include "CANpack.hpp"
+#include <Arduino.h>
 #include "print.hpp"
+#include "global.hpp"
+
 
 //--------------------------------------
 //   change here to switch read/send
 //--------------------------------------
 bool IFREAD = true;
+
 //--------------------------------------
 
+CANpack canpack;
 
 void setup() {
   delay(3000);
   Serial.println("Waiting for setup...");
-  CANpack0.CANsetup();
+  canpack.CANsetup();
   Serial.println("CAN setup : COMPLETE");
 }
 
 int loopCount = 0;
-float beforeStrain = 1.0f;
 void loop() {
-  can0.events();
+  Node.events();
+  
   if (IFREAD){
-    // case read
-    // for (int i = 0; i < 5; i++) {
-    //   CANpack0.packPointer[i] = p[i];
-    //   // p[i] = CANpack0.packPointer[i];
-    // }
     UTHAPS::println("IF To Master sending content");
     UTHAPS::println("strain[0] = ", imp.strain[0]);
     UTHAPS::println("strain[1] = ", imp.strain[1]);
@@ -44,17 +42,15 @@ void loop() {
     mip.attitude_dt = 11.1f * (loopCount % 5 + 1);
     mip.main_dt = 22.2f * (loopCount % 5 + 1);
     mip.control_dt = 33.3f * (loopCount % 5 + 1);
-    CANpack0.send(0,&mip);
+    canpack.CANsend(0,&mip);
     Serial.println("Master to IF sending success");
+  
   } else {
-
-
-    
     // setup Interface to Master pack
     for (int i = 0; i < 5 ; i++ ){
       imp.strain[i] = (i + 1) * 11.1f * (loopCount % 5 + 1);
     }
-    CANpack0.send(1,&imp);
+    canpack.CANsend(1,&imp);
     Serial.println("IF to Master : send SUCCESS");
 
     // setup Master to Tail pack and send it to CAN bus
@@ -68,7 +64,7 @@ void loop() {
     mtp.gravity[1] = 66.8f;
     mtp.gravity[2] = 99.4f;
     mtp.mode = 2.0f * (loopCount % 5 + 1);
-    CANpack0.send(2,&mtp);
+    canpack.CANsend(2,&mtp);
     Serial.println("Master to Tail : send SUCCESS");
     UTHAPS::println("Master To IF sending content");
     UTHAPS::println("attituded_dt = ",mip.attitude_dt);

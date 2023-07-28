@@ -1,6 +1,6 @@
-#pragma once
-#include <FlexCAN_T4.h>
-#include <TeensyCAN.h>
+// #pragma once
+
+
 
 // extern FlexCAN_T4FD<CAN3, RX_SIZE_256, TX_SIZE_16> can0;
 // extern TeensyCAN node36;

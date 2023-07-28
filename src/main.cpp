@@ -1,9 +1,8 @@
+#include "CANpack.hpp"
 #include <Arduino.h>
-// #include <FlexCAN_T4.h>
-// #include <TeensyCAN.h>
 #include "print.hpp"
 #include "global.hpp"
-#include "CANpack.hpp"
+
 
 //--------------------------------------
 //   change here to switch read/send

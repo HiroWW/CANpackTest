@@ -28,6 +28,24 @@ void CANread(const uint8_t* buffer, uint16_t length, AsyncTC info) {
   memcpy(p[ID_read], buffer, len[ID_read]);
 }
 
+template <typename S>
+void send(uint8_t ID_send, S *send_data) {
+  // struct=>uint8_t c[256]変換用union
+  union send_data_union {
+    S raw_data;
+    uint8_t encoded_data[256];
+  };
+  send_data_union sendDataUnion; //* unionのインスタンスを宣言
+  sendDataUnion.raw_data = *send_data; //* 引数に取ったstructをunionへコピー
+
+  //* 全Nodeに向けて送信
+  static uint32_t t = millis();
+  if (millis() - t > 1000) {
+    Node.sendMsg(sendDataUnion.encoded_data, 256, ID_send);
+    t = millis();
+  }
+}
+
 void setup() {
   delay(3000);
   Serial.println("Waiting for setup...");
@@ -81,7 +99,7 @@ void loop() {
     mip.attitude_dt = 11.1f * (loopCount % 5 + 1);
     mip.main_dt = 22.2f * (loopCount % 5 + 1);
     mip.control_dt = 33.3f * (loopCount % 5 + 1);
-    // CANpack0.send(0,&mip);
+    send(0,&mip);
     Serial.println("Master to IF sending success");
   } else {
 
@@ -91,7 +109,7 @@ void loop() {
     for (int i = 0; i < 5 ; i++ ){
       imp.strain[i] = (i + 1) * 11.1f * (loopCount % 5 + 1);
     }
-    // CANpack0.send(1,&imp);
+    send(1,&imp);
     Serial.println("IF to Master : send SUCCESS");
 
     // setup Master to Tail pack and send it to CAN bus
@@ -105,7 +123,7 @@ void loop() {
     mtp.gravity[1] = 66.8f;
     mtp.gravity[2] = 99.4f;
     mtp.mode = 2.0f * (loopCount % 5 + 1);
-    // CANpack0.send(2,&mtp);
+    send(2,&mtp);
     Serial.println("Master to Tail : send SUCCESS");
     UTHAPS::println("Master To IF sending content");
     UTHAPS::println("attituded_dt = ",mip.attitude_dt);

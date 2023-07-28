@@ -11,10 +11,12 @@ bool IFREAD = true;
 
 //--------------------------------------
 
+CANpack canpack;
+
 void setup() {
   delay(3000);
   Serial.println("Waiting for setup...");
-  CANsetup();
+  canpack.CANsetup();
   Serial.println("CAN setup : COMPLETE");
 }
 
@@ -40,7 +42,7 @@ void loop() {
     mip.attitude_dt = 11.1f * (loopCount % 5 + 1);
     mip.main_dt = 22.2f * (loopCount % 5 + 1);
     mip.control_dt = 33.3f * (loopCount % 5 + 1);
-    send(0,&mip);
+    canpack.CANsend(0,&mip);
     Serial.println("Master to IF sending success");
   
   } else {
@@ -48,7 +50,7 @@ void loop() {
     for (int i = 0; i < 5 ; i++ ){
       imp.strain[i] = (i + 1) * 11.1f * (loopCount % 5 + 1);
     }
-    send(1,&imp);
+    canpack.CANsend(1,&imp);
     Serial.println("IF to Master : send SUCCESS");
 
     // setup Master to Tail pack and send it to CAN bus
@@ -62,7 +64,7 @@ void loop() {
     mtp.gravity[1] = 66.8f;
     mtp.gravity[2] = 99.4f;
     mtp.mode = 2.0f * (loopCount % 5 + 1);
-    send(2,&mtp);
+    canpack.CANsend(2,&mtp);
     Serial.println("Master to Tail : send SUCCESS");
     UTHAPS::println("Master To IF sending content");
     UTHAPS::println("attituded_dt = ",mip.attitude_dt);

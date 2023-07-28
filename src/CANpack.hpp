@@ -5,12 +5,17 @@
 
 FlexCAN_T4FD<CAN3, RX_SIZE_256, TX_SIZE_16> can0;
 TeensyCAN node36 = TeensyCAN(36);
-void CANsetup();
-void CANread(const uint8_t* buffer, uint16_t length, AsyncTC info);
-template <typename S>
-void send(uint8_t ID_send, S *send_data) ;
 
-void CANsetup(){
+class CANpack{
+  public:
+  void CANsetup();
+  template <typename S>
+  void CANsend(uint8_t ID_send, S *send_data) ;
+};
+
+void CANread(const uint8_t* buffer, uint16_t length, AsyncTC info);
+
+void CANpack::CANsetup(){
   can0.begin();
   Node.setBus(_CAN3);
   Node.setID(36);
@@ -28,14 +33,8 @@ void CANsetup(){
   can0.mailboxStatus();
 }
 
-void CANread(const uint8_t* buffer, uint16_t length, AsyncTC info) {
-  int ID_read;
-  ID_read = info.packetid;
-  memcpy(p[ID_read], buffer, len[ID_read]);
-}
-
 template <typename S>
-void send(uint8_t ID_send, S *send_data) {
+void CANpack::CANsend(uint8_t ID_send, S *send_data) {
   // struct=>uint8_t c[256]変換用union
   union send_data_union {
     S raw_data;
@@ -50,4 +49,10 @@ void send(uint8_t ID_send, S *send_data) {
     Node.sendMsg(sendDataUnion.encoded_data, 256, ID_send);
     t = millis();
   }
+}
+
+void CANread(const uint8_t* buffer, uint16_t length, AsyncTC info) {
+  int ID_read;
+  ID_read = info.packetid;
+  memcpy(p[ID_read], buffer, len[ID_read]);
 }

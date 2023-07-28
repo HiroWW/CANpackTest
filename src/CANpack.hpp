@@ -1,6 +1,4 @@
 #pragma once
-
-// #include "CANpack.hpp"
 #include "global.hpp"
 #include <FlexCAN_T4.h>
 #include <TeensyCAN.h>
@@ -31,5 +29,3 @@ void send(uint8_t ID_send, S *send_data) {
     t = millis();
   }
 }
-
-// #include "CANpack.tpp"

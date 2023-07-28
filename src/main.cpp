@@ -8,47 +8,21 @@
 //   change here to switch read/send
 //--------------------------------------
 bool IFREAD = true;
+
 //--------------------------------------
-
-
-
 
 void setup() {
   delay(3000);
   Serial.println("Waiting for setup...");
-
-  can0.begin();
-
-  Node.setBus(_CAN3);
-  Node.setID(36);
-  Node.onReceive(CANread);
-
-  CANFD_timings_t config;
-  config.clock = CLK_24MHz;
-  config.baudrate = 1000000;
-  config.baudrateFD = 2000000;
-  config.propdelay = 190;
-  config.bus_length = 1;
-  config.sample = 87.5;
-  can0.setRegions(64);
-  can0.setBaudRate(config);
-  can0.enableMBInterrupts();
-  can0.mailboxStatus();
-
+  CANsetup();
   Serial.println("CAN setup : COMPLETE");
 }
 
 int loopCount = 0;
-float beforeStrain = 1.0f;
 void loop() {
-  can0.events();
   Node.events();
+  
   if (IFREAD){
-    // case read
-    // for (int i = 0; i < 5; i++) {
-    //   CANpack0.packPointer[i] = p[i];
-    //   // p[i] = CANpack0.packPointer[i];
-    // }
     UTHAPS::println("IF To Master sending content");
     UTHAPS::println("strain[0] = ", imp.strain[0]);
     UTHAPS::println("strain[1] = ", imp.strain[1]);
@@ -68,6 +42,7 @@ void loop() {
     mip.control_dt = 33.3f * (loopCount % 5 + 1);
     send(0,&mip);
     Serial.println("Master to IF sending success");
+  
   } else {
     // setup Interface to Master pack
     for (int i = 0; i < 5 ; i++ ){

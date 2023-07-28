@@ -5,6 +5,28 @@
 
 FlexCAN_T4FD<CAN3, RX_SIZE_256, TX_SIZE_16> can0;
 TeensyCAN node36 = TeensyCAN(36);
+void CANsetup();
+void CANread(const uint8_t* buffer, uint16_t length, AsyncTC info);
+template <typename S>
+void send(uint8_t ID_send, S *send_data) ;
+
+void CANsetup(){
+  can0.begin();
+  Node.setBus(_CAN3);
+  Node.setID(36);
+  Node.onReceive(CANread);
+  CANFD_timings_t config;
+  config.clock = CLK_24MHz;
+  config.baudrate = 1000000;
+  config.baudrateFD = 2000000;
+  config.propdelay = 190;
+  config.bus_length = 1;
+  config.sample = 87.5;
+  can0.setRegions(64);
+  can0.setBaudRate(config);
+  can0.enableMBInterrupts();
+  can0.mailboxStatus();
+}
 
 void CANread(const uint8_t* buffer, uint16_t length, AsyncTC info) {
   int ID_read;

@@ -2,7 +2,7 @@
 #include <FlexCAN_T4.h>
 #include <TeensyCAN.h>
 #include "print.hpp"
-#include "CommunicationPacks.hpp"
+#include "global.hpp"
 
 //--------------------------------------
 //   change here to switch read/send
@@ -13,14 +13,6 @@ bool IFREAD = true;
 FlexCAN_T4FD<CAN3, RX_SIZE_256, TX_SIZE_16> can0;
 TeensyCAN node36 = TeensyCAN(36);
 
-CAN::MasterToIF mip;
-CAN::IFToMaster imp;
-CAN::MasterToTail mtp;
-CAN::TailToMaster tmp;
-CAN::TailToIF tip;
-
-CAN::pack* p[5] = {&mip,&imp,&mtp,&tmp,&tip};
-int len[5] = {sizeof(mip), sizeof(imp),sizeof(mtp), sizeof(tmp), sizeof(tip)};
 
 void CANread(const uint8_t* buffer, uint16_t length, AsyncTC info) {
   int ID_read;

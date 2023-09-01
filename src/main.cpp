@@ -7,14 +7,14 @@
 //--------------------------------------
 //   change here to switch read/send
 //--------------------------------------
-bool IFREAD = true;
+bool IFREAD = false;
 
 //--------------------------------------
 
 CANpack canpack;
 
 void setup() {
-  delay(3000);
+  delay(7000);
   Serial.println("Waiting for setup...");
   canpack.CANsetup();
   Serial.println("CAN setup : COMPLETE");
@@ -22,7 +22,7 @@ void setup() {
 
 int loopCount = 0;
 void loop() {
-  Node.events();
+  // Node.events();
   
   if (IFREAD){
     UTHAPS::println("Master To IF sending content");
@@ -52,7 +52,7 @@ void loop() {
     mip.control_dt = 33.3f * (loopCount % 5 + 1);
     canpack.CANsend(0,&mip);
     UTHAPS::println("Master to IF sending success");
-    
+
     // setup Interface to Master pack
     for (int i = 0; i < 5 ; i++ ){
       imp.strain[i] = (i + 1) * 11.1f * (loopCount % 5 + 1);

@@ -1,7 +1,7 @@
-#include "CANpack.hpp"
 #include <Arduino.h>
 #include "print.hpp"
 #include "global.hpp"
+#include "CANpack.hpp"
 
 
 //--------------------------------------
@@ -10,20 +10,17 @@
 bool IFREAD = false;
 
 //--------------------------------------
-
-CANpack canpack;
-
+CANpack canpack0;
 void setup() {
     delay(7000);
     Serial.println("Waiting for setup...");
-    canpack.CANsetup();
+    canpack0.CANsetup();
     Serial.println("CAN setup : COMPLETE");
 }
 
 int loopCount = 0;
 void loop() {
-  // Node.events();
-  
+canReceive.events();
     if (IFREAD){
         UTHAPS::println("Master To IF sending content");
         UTHAPS::println("attituded_dt = ",mip.attitude_dt);
@@ -48,21 +45,21 @@ void loop() {
         mtp.gravity[1] = 66.8f;
         mtp.gravity[2] = 99.4f;
         mtp.mode = 2.0f * (loopCount % 5 + 1);
-        canpack.CANsend(2,&mtp);
+        canpack0.CANsend(2,&mtp);
         UTHAPS::println("Master to Tail : send SUCCESS");
     } else {
         // setup Master to Interface pack
         mip.attitude_dt = 11.1f * (loopCount % 5 + 1);
         mip.main_dt = 22.2f * (loopCount % 5 + 1);
         mip.control_dt = 33.3f * (loopCount % 5 + 1);
-        canpack.CANsend(0,&mip);
+        canpack0.CANsend(0,&mip);
         UTHAPS::println("Master to IF sending success");
 
         // setup Interface to Master pack
         for (int i = 0; i < 5 ; i++ ){
             imp.strain[i] = (i + 1) * 11.1f * (loopCount % 5 + 1);
         }
-        canpack.CANsend(1,&imp);
+        canpack0.CANsend(1,&imp);
         UTHAPS::println("IF to Master : send SUCCESS");
 
         UTHAPS::println("Master to Tail content");

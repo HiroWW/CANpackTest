@@ -1,6 +1,7 @@
 #pragma once
 #include "CommunicationPacks.hpp"
 
+
 extern CAN::MasterToIF mip;
 extern CAN::IFToMaster imp;
 extern CAN::MasterToTail mtp;

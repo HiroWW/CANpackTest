@@ -50,7 +50,7 @@ void loop() {
     }else{
     }
 
-    if (IFDEBUG && (loopCount % 97 == 1)){
+    if (IFDEBUG && (loopCount % 13 == 1)){
         UTHAPS::println("---------- 0 : Master To IF content----------");
         UTHAPS::println("attituded_dt = ",mip.attitude_dt);
         UTHAPS::println("main_dt = ", mip.main_dt);

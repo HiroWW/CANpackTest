@@ -1,14 +1,14 @@
 #include <Arduino.h>
 #include "print.hpp"
 #include "global.hpp"
-#include "CANpack.hpp"
+#include "revCAN.hpp"
 
 
 //--------------------------------------
 //   change here to switch read/send
 //--------------------------------------
 bool IFREAD = false;
-
+CANpack canpack;
 //--------------------------------------
 // CANpack canpack0;
 void setup() {
@@ -20,7 +20,7 @@ void setup() {
 
 int loopCount = 0;
 void loop() {
-canReceive.events();
+Node.events();
     if (IFREAD){
         UTHAPS::println("Master To IF sending content");
         UTHAPS::println("attituded_dt = ",mip.attitude_dt);

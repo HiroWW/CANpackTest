@@ -1,8 +1,7 @@
-#include "CANpack.hpp"
 #include <Arduino.h>
 #include "print.hpp"
 #include "global.hpp"
-
+#include "CANpack.hpp"
 
 //--------------------------------------
 //   change here to switch read/send
@@ -22,7 +21,7 @@ void setup() {
 
 int loopCount = 0;
 void loop() {
-  // Node.events();
+    Node.events();
   
     if (IFREAD){
         UTHAPS::println("Master To IF sending content");

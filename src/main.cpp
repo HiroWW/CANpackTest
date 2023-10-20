@@ -35,7 +35,7 @@ void loop() {
         mtp.gravity[2] = 99.4f;
         mtp.mode = 2.0f * (loopCount % 5 + 1);
         mtp.receive_state = true;
-        canpack.CANsend(2,&mtp);
+        canpack.CANsend(loopCount%5,&mtp);
     } else if(!IFREAD){
         // setup Master to Interface pack
         mip.attitude_dt = 11.1f * (loopCount % 5 + 1);
@@ -80,13 +80,16 @@ void loop() {
     }
     if (IFREAD){
         CANMessage message;
-        if (ACAN_T4::can2.receive(message)){
-            UTHAPS::println("id", message.id);
-            for (int i = 0; i < 8; i++){
-                // int dataCon = message.data[]
-                UTHAPS::print(message.data[i], " ");
+        UTHAPS::print("receive data ");
+        for (int i = 0; i < 12; i++){
+            if (ACAN_T4::can2.receive(message)){
+                UTHAPS::println("id", message.id);
+                for (int i = 0; i < 8; i++){
+                    // int dataCon = message.data[]
+                    UTHAPS::print(message.data[i], " ");
+                }
+                UTHAPS::println("");
             }
-            UTHAPS::println("");
         }
     }
     // while(ACAN_T4::can1.receive(message)){

@@ -2,12 +2,12 @@
 #include "print.hpp"
 #include "global.hpp"
 #include "CANpack.hpp"
-
+#include "testCAN.hpp"
 //--------------------------------------
 //   change here to switch read/send
 //--------------------------------------
 bool IFREAD = true;
-bool IFDEBUG = true;
+bool IFDEBUG = false;
 //--------------------------------------
 
 CANpack canpack;
@@ -21,7 +21,7 @@ void setup() {
 
 int loopCount = 0;
 void loop() {
-    Node.events();
+    // Node.events()
     if (IFREAD){
         // setup Master to Tail pack and send it to CAN bus
         mtp.updateTime = 11.1f * (loopCount % 5 + 1);
@@ -34,19 +34,22 @@ void loop() {
         mtp.gravity[1] = 66.8f;
         mtp.gravity[2] = 99.4f;
         mtp.mode = 2.0f * (loopCount % 5 + 1);
+        mtp.receive_state = true;
         canpack.CANsend(2,&mtp);
-    } else if(!IFREAD && !IFDEBUG){
+    } else if(!IFREAD){
         // setup Master to Interface pack
         mip.attitude_dt = 11.1f * (loopCount % 5 + 1);
         mip.main_dt = 22.2f * (loopCount % 5 + 1);
         mip.control_dt = 33.3f * (loopCount % 5 + 1);
-        canpack.CANsend(0,&mip);
+        mip.receive_state = true;
+        // canpack.CANsend(0,&mip);
 
         // setup Interface to Master pack
         for (int i = 0; i < 5 ; i++ ){
             imp.strain[i] = (i + 1) * 11.1f * (loopCount % 5 + 1);
         }
-        canpack.CANsend(1,&imp);
+        imp.receive_state = true;
+        // canpack.CANsend(1,&imp);
     }else{
     }
 
@@ -75,5 +78,24 @@ void loop() {
 
         UTHAPS::println("loop count is ",loopCount);
     }
+    if (IFREAD){
+        CANMessage message;
+        if (ACAN_T4::can2.receive(message)){
+            UTHAPS::println("id", message.id);
+            for (int i = 0; i < 8; i++){
+                // int dataCon = message.data[]
+                UTHAPS::print(message.data[i], " ");
+            }
+            UTHAPS::println("");
+        }
+    }
+    // while(ACAN_T4::can1.receive(message)){
+        // canpack.CANread(message);
+        // UTHAPS::println("receive state",mtp.receive_state,mip.receive_state,imp.receive_state);
+        // if (mtp.receive_state,mip.receive_state,imp.receive_state){
+        //     break;
+        // }
+    // }
+    // UTHAPS::println("receive state",mtp.receive_state,mip.receive_state,imp.receive_state);
     loopCount++ ;
 }

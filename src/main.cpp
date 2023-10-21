@@ -3,11 +3,12 @@
 #include "global.hpp"
 #include "CANpack.hpp"
 #include "testCAN.hpp"
+#include <vector>
 //--------------------------------------
 //   change here to switch read/send
 //--------------------------------------
 bool IFREAD = true;
-bool IFDEBUG = false;
+bool IFDEBUG = true;
 //--------------------------------------
 
 CANpack canpack;
@@ -19,23 +20,23 @@ void setup() {
     Serial.println("CAN setup : COMPLETE");
 }
 
-int loopCount = 0;
+int loopCount = 3;
 void loop() {
     // Node.events()
     if (IFREAD){
         // setup Master to Tail pack and send it to CAN bus
-        mtp.updateTime = 11.1f * (loopCount % 5 + 1);
-        mtp.drCommand = 22.2f * (loopCount % 5 + 1);
-        mtp.deCommand = 1.0f * (loopCount % 5 + 1);
+        mtpS.updateTime = 11.1f * (loopCount % 5 + 1);
+        mtpS.drCommand = 22.2f * (loopCount % 5 + 1);
+        mtpS.deCommand = 1.0f * (loopCount % 5 + 1);
         for (int i = 0; i < 15; i++){
-            mtp.err_state[i] = 1.0f * i;
+            mtpS.err_state[i] = 1.0f * i;
         }
-        mtp.gravity[0] = 33.4f;
-        mtp.gravity[1] = 66.8f;
-        mtp.gravity[2] = 99.4f;
-        mtp.mode = 2.0f * (loopCount % 5 + 1);
-        mtp.receive_state = true;
-        canpack.CANsend(loopCount%5,&mtp);
+        mtpS.gravity[0] = 33.4f;
+        mtpS.gravity[1] = 66.8f;
+        mtpS.gravity[2] = 99.4f;
+        mtpS.mode = 2.0f * (loopCount % 5 + 1);
+        mtpS.receive_state = true;
+        canpack.CANsend(2,&mtpS);
     } else if(!IFREAD){
         // setup Master to Interface pack
         mip.attitude_dt = 11.1f * (loopCount % 5 + 1);
@@ -53,7 +54,19 @@ void loop() {
     }else{
     }
 
-    if (IFDEBUG && (loopCount % 13 == 1)){
+    union send_data_union {
+        // struct=>uint8_t c[256]変換用union
+        CAN::MasterToTail raw_data;
+        uint8_t c[256] = {};
+    };
+    send_data_union sd;
+
+    std::vector<unsigned char> vec = canpack.CANread();
+    std::copy(vec.begin(), vec.end(), sd.c);
+    mtp = sd.raw_data;
+
+
+    if (IFDEBUG){
         UTHAPS::println("---------- 0 : Master To IF content----------");
         UTHAPS::println("attituded_dt = ",mip.attitude_dt);
         UTHAPS::println("main_dt = ", mip.main_dt);
@@ -78,7 +91,7 @@ void loop() {
 
         UTHAPS::println("loop count is ",loopCount);
     }
-    if (IFREAD){
+    if (! IFREAD){
         CANMessage message;
         UTHAPS::print("receive data ");
         for (int i = 0; i < 12; i++){
@@ -100,5 +113,5 @@ void loop() {
         // }
     // }
     // UTHAPS::println("receive state",mtp.receive_state,mip.receive_state,imp.receive_state);
-    loopCount++ ;
+    // loopCount++ ;
 }

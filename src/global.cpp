@@ -2,6 +2,7 @@
 CAN::MasterToIF mip;
 CAN::IFToMaster imp;
 CAN::MasterToTail mtp;
+CAN::MasterToTail mtpS;
 CAN::TailToMaster tmp;
 CAN::TailToIF tip;
 

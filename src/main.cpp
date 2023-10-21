@@ -22,37 +22,26 @@ void setup() {
 
 int loopCount = 3;
 void loop() {
-    // Node.events()
-    if (IFREAD){
-        // setup Master to Tail pack and send it to CAN bus
-        mtpS.updateTime = 11.1f * (loopCount % 5 + 1);
-        mtpS.drCommand = 22.2f * (loopCount % 5 + 1);
-        mtpS.deCommand = 1.0f * (loopCount % 5 + 1);
-        for (int i = 0; i < 15; i++){
-            mtpS.err_state[i] = 1.0f * i;
-        }
-        mtpS.gravity[0] = 33.4f;
-        mtpS.gravity[1] = 66.8f;
-        mtpS.gravity[2] = 99.4f;
-        mtpS.mode = 2.0f * (loopCount % 5 + 1);
-        mtpS.receive_state = true;
-        canpack.CANsend(2,&mtpS);
-    } else if(!IFREAD){
-        // setup Master to Interface pack
-        mip.attitude_dt = 11.1f * (loopCount % 5 + 1);
-        mip.main_dt = 22.2f * (loopCount % 5 + 1);
-        mip.control_dt = 33.3f * (loopCount % 5 + 1);
-        mip.receive_state = true;
-        // canpack.CANsend(0,&mip);
 
-        // setup Interface to Master pack
-        for (int i = 0; i < 5 ; i++ ){
-            imp.strain[i] = (i + 1) * 11.1f * (loopCount % 5 + 1);
-        }
-        imp.receive_state = true;
-        // canpack.CANsend(1,&imp);
-    }else{
+    //--------------------------------------------------------------------------------------------------
+    
+    // setup Master to Tail pack and send it to CAN bus
+    canMasterToLeft.updateTime = 11.1f * (loopCount % 5 + 1);
+    canMasterToLeft.drCommand = 22.2f * (loopCount % 5 + 1);
+    canMasterToLeft.deCommand = 1.0f * (loopCount % 5 + 1);
+    for (int i = 0; i < 15; i++){
+        canMasterToLeft.err_state[i] = 1.0f * i;
     }
+    canMasterToLeft.gravity[0] = 33.4f;
+    canMasterToLeft.gravity[1] = 66.8f;
+    canMasterToLeft.gravity[2] = 99.4f;
+    canMasterToLeft.mode = 2.0f * (loopCount % 5 + 1);
+    canMasterToLeft.receive_state = true;
+    canpack.CANsend(CAN_ID_MASTERTORIGHT ,&canMasterToLeft);
+
+    //--------------------------------------------------------------------------------------------------
+
+    
 
     union send_data_union {
         // struct=>uint8_t c[256]変換用union
@@ -63,33 +52,34 @@ void loop() {
 
     std::vector<unsigned char> vec = canpack.CANread();
     std::copy(vec.begin(), vec.end(), sd.c);
-    mtp = sd.raw_data;
+    canMasterToRight = sd.raw_data;
 
 
-    if (IFDEBUG){
-        UTHAPS::println("---------- 0 : Master To IF content----------");
-        UTHAPS::println("attituded_dt = ",mip.attitude_dt);
-        UTHAPS::println("main_dt = ", mip.main_dt);
-        UTHAPS::println("control_dt = ", mip.control_dt);
+    if (IFDEBUG && canMasterToRight.updateTime != 0.0f){
+        // UTHAPS::println("---------- 0 : Master To IF content----------");
+        // UTHAPS::println("attituded_dt = ",mip.attitude_dt);
+        // UTHAPS::println("main_dt = ", mip.main_dt);
+        // UTHAPS::println("control_dt = ", mip.control_dt);
 
-        UTHAPS::println("---------- 1 :IF To Master content----------");
-        UTHAPS::println("strain[0] = ", imp.strain[0]);
-        UTHAPS::println("strain[1] = ", imp.strain[1]);
-        UTHAPS::println("strain[2] = ", imp.strain[2]);
-        UTHAPS::println("strain[3] = ", imp.strain[3]);
-        UTHAPS::println("strain[4] = ", imp.strain[4]);
+        // UTHAPS::println("---------- 1 :IF To Master content----------");
+        // UTHAPS::println("strain[0] = ", imp.strain[0]);
+        // UTHAPS::println("strain[1] = ", imp.strain[1]);
+        // UTHAPS::println("strain[2] = ", imp.strain[2]);
+        // UTHAPS::println("strain[3] = ", imp.strain[3]);
+        // UTHAPS::println("strain[4] = ", imp.strain[4]);
 
         UTHAPS::println("---------- 2 : Master to Tail content----------");
-        UTHAPS::println("updateTime = ", mtp.updateTime);
-        UTHAPS::println("drCommand = ", mtp.drCommand);
-        UTHAPS::println("deCommand = ", mtp.deCommand);
-        UTHAPS::println("err state = ", mtp.err_state[1]);
-        UTHAPS::println("gravity = ", mtp.gravity[2]);
-        UTHAPS::println("mtp.mode = ", mtp.mode);
+        UTHAPS::println("updateTime = ", canMasterToRight.updateTime);
+        UTHAPS::println("drCommand = ", canMasterToRight.drCommand);
+        UTHAPS::println("deCommand = ", canMasterToRight.deCommand);
+        UTHAPS::println("err state = ", canMasterToRight.err_state[1]);
+        UTHAPS::println("gravity = ", canMasterToRight.gravity[2]);
+        UTHAPS::println("canMasterToRight.mode = ", canMasterToRight.mode);
 
         UTHAPS::println("---------- EX : loop CNT ----------");
 
-        UTHAPS::println("loop count is ",loopCount);
+        UTHAPS::println("RX loop count is ",(canMasterToRight.updateTime / 11.1f - 1));
+        UTHAPS::println("TX loop count is ", loopCount);
     }
     if (! IFREAD){
         CANMessage message;
@@ -107,12 +97,12 @@ void loop() {
     }
     // while(ACAN_T4::can1.receive(message)){
         // canpack.CANread(message);
-        // UTHAPS::println("receive state",mtp.receive_state,mip.receive_state,imp.receive_state);
-        // if (mtp.receive_state,mip.receive_state,imp.receive_state){
+        // UTHAPS::println("receive state",canMasterToRight.receive_state,mip.receive_state,imp.receive_state);
+        // if (canMasterToRight.receive_state,mip.receive_state,imp.receive_state){
         //     break;
         // }
     // }
-    // UTHAPS::println("receive state",mtp.receive_state,mip.receive_state,imp.receive_state);
+    // UTHAPS::println("receive state",canMasterToRight.receive_state,mip.receive_state,imp.receive_state);
     loopCount++ ;
     if (loopCount == 5){
         loopCount = 0;

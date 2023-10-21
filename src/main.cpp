@@ -20,15 +20,15 @@ void setup() {
     Serial.println("CAN setup : COMPLETE");
 }
 
-int loopCount = 3;
+int loopCount = 0;
 void loop() {
 
     //--------------------------------------------------------------------------------------------------
     
     // setup Master to Tail pack and send it to CAN bus
-    canMasterToLeft.updateTime = 11.1f * (loopCount % 5 + 1);
-    canMasterToLeft.drCommand = 22.2f * (loopCount % 5 + 1);
-    canMasterToLeft.deCommand = 1.0f * (loopCount % 5 + 1);
+    canMasterToLeft.updateTime = 1.1f * (loopCount % 5 + 1);
+    canMasterToLeft.drCommand = 11.11f * (loopCount % 5 + 1);
+    canMasterToLeft.deCommand = 111.111f * (loopCount % 5 + 1);
     for (int i = 0; i < 15; i++){
         canMasterToLeft.err_state[i] = 1.0f * i;
     }
@@ -38,24 +38,25 @@ void loop() {
     canMasterToLeft.mode = 2.0f * (loopCount % 5 + 1);
     canMasterToLeft.receive_state = true;
     canpack.CANsend(CAN_ID_MASTERTORIGHT ,&canMasterToLeft);
+    UTHAPS::println("TX SIZE",sizeof(canMasterToLeft));
 
     //--------------------------------------------------------------------------------------------------
 
-    
+    // canLeftToMaster.acc = 
 
-    union send_data_union {
-        // struct=>uint8_t c[256]変換用union
-        CAN::MasterToTail raw_data;
-        uint8_t c[256] = {};
-    };
-    send_data_union sd;
+    // union send_data_union {
+    //     // struct=>uint8_t c[256]変換用union
+    //     CAN::MasterToTail raw_data;
+    //     uint8_t c[256] = {};
+    // };
+    // send_data_union sd;
 
-    std::vector<unsigned char> vec = canpack.CANread();
-    std::copy(vec.begin(), vec.end(), sd.c);
-    canMasterToRight = sd.raw_data;
+    // std::vector<unsigned char> vec = canpack.CANread();
+    // std::copy(vec.begin(), vec.end(), sd.c);
+    // canMasterToRight = sd.raw_data;
 
-
-    if (IFDEBUG && canMasterToRight.updateTime != 0.0f){
+    canpack.CANread();
+    if (IFDEBUG){
         // UTHAPS::println("---------- 0 : Master To IF content----------");
         // UTHAPS::println("attituded_dt = ",mip.attitude_dt);
         // UTHAPS::println("main_dt = ", mip.main_dt);

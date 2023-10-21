@@ -14,7 +14,7 @@ bool IFDEBUG = true;
 CANpack canpack;
 
 void setup() {
-    delay(7000);
+    // delay(7000);
     Serial.println("Waiting for setup...");
     canpack.CANsetup();
     Serial.println("CAN setup : COMPLETE");
@@ -113,5 +113,8 @@ void loop() {
         // }
     // }
     // UTHAPS::println("receive state",mtp.receive_state,mip.receive_state,imp.receive_state);
-    // loopCount++ ;
+    loopCount++ ;
+    if (loopCount == 5){
+        loopCount = 0;
+    }
 }

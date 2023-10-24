@@ -69,13 +69,13 @@ void loop() {
         // UTHAPS::println("strain[3] = ", imp.strain[3]);
         // UTHAPS::println("strain[4] = ", imp.strain[4]);
 
-        UTHAPS::println("---------- 2 : Master to Tail content----------");
-        UTHAPS::println("updateTime = ", canMasterToRight.updateTime);
-        UTHAPS::println("drCommand = ", canMasterToRight.drCommand);
-        UTHAPS::println("deCommand = ", canMasterToRight.deCommand);
-        UTHAPS::println("err state = ", canMasterToRight.err_state[1]);
-        UTHAPS::println("gravity = ", canMasterToRight.gravity[2]);
-        UTHAPS::println("canMasterToRight.mode = ", canMasterToRight.mode);
+        // UTHAPS::println("---------- 2 : Master to Tail content----------");
+        // UTHAPS::println("updateTime = ", canMasterToRight.updateTime);
+        // UTHAPS::println("drCommand = ", canMasterToRight.drCommand);
+        // UTHAPS::println("deCommand = ", canMasterToRight.deCommand);
+        // UTHAPS::println("err state = ", canMasterToRight.err_state[1]);
+        // UTHAPS::println("gravity = ", canMasterToRight.gravity[2]);
+        // UTHAPS::println("canMasterToRight.mode = ", canMasterToRight.mode);
 
         UTHAPS::println("---------- EX : loop CNT ----------");
 

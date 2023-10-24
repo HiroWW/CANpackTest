@@ -104,7 +104,7 @@ void loop() {
         // }
     // }
     // UTHAPS::println("receive state",canMasterToRight.receive_state,mip.receive_state,imp.receive_state);
-    loopCount++ ;
+    // loopCount++ ;
     if (loopCount == 5){
         loopCount = 0;
     }
@@ -112,7 +112,8 @@ void loop() {
 
 // struct -> union OK
 // union -> cobs OK
-// cobs -> cutarr ??
+// cobs -> cutarr OK
+    // while文するとおかしくなる。
 // buffer -> msgdata OK
 // msgdata -> decoded data OK
-// decoded data -> cobsINF ?? 
+// decoded data -> cobsINF ??

@@ -109,3 +109,10 @@ void loop() {
         loopCount = 0;
     }
 }
+
+// struct -> union OK
+// union -> cobs OK
+// cobs -> cutarr ??
+// buffer -> msgdata OK
+// msgdata -> decoded data OK
+// decoded data -> cobsINF ?? 

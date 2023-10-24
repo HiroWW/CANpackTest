@@ -114,6 +114,9 @@ void loop() {
 // union -> cobs OK
 // cobs -> cutarr OK
     // while文するとおかしくなる。
-// buffer -> msgdata OK
+// buffer -> msgdata NG
+    // msg dataを切り抜く処理がおかしいよよね～～
+    // indexを変えるとmsgdataとdataEncodedの値は一致する
+    // でもcobsにぶちこむとフリーズする　うんこ
 // msgdata -> decoded data OK
 // decoded data -> cobsINF ??

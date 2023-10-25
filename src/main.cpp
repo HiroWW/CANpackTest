@@ -37,7 +37,12 @@ void loop() {
     canMasterToLeft.gravity[2] = 99.4f;
     canMasterToLeft.mode = 2.0f * (loopCount % 5 + 1);
     canMasterToLeft.receive_state = true;
-    canpack.CANsend(CAN_ID_MASTERTORIGHT ,&canMasterToLeft);
+    // canpack.CANsend(CAN_ID_MASTERTORIGHT ,&canMasterToLeft);
+
+    canLeftToMaster.acc[0] =  1.1f * (loopCount % 5 + 1);
+    canLeftToMaster.gyro[2] =  111.111f * (loopCount % 5 + 1);
+    canLeftToMaster.heading = 33.44f;
+    canpack.CANsend(CAN_ID_CENTERTOMASTER,&canLeftToMaster);
     // canpack.CANsend(CAN_ID_MASTERTORIGHT ,&canMasterToLeft);
     // canpack.CANsend(CAN_ID_MASTERTORIGHT ,&canMasterToLeft);
 
@@ -65,12 +70,10 @@ void loop() {
         // UTHAPS::println("main_dt = ", mip.main_dt);
         // UTHAPS::println("control_dt = ", mip.control_dt);
 
-        // UTHAPS::println("---------- 1 :IF To Master content----------");
-        // UTHAPS::println("strain[0] = ", imp.strain[0]);
-        // UTHAPS::println("strain[1] = ", imp.strain[1]);
-        // UTHAPS::println("strain[2] = ", imp.strain[2]);
-        // UTHAPS::println("strain[3] = ", imp.strain[3]);
-        // UTHAPS::println("strain[4] = ", imp.strain[4]);
+        UTHAPS::println("---------- 1 :Tail To Master content----------");
+        UTHAPS::println("acc 0", canCenterToMaster.acc[0]);
+        UTHAPS::println("gyro 2", canCenterToMaster.gyro[2]);
+        UTHAPS::println("heading ", canCenterToMaster.heading);
 
         UTHAPS::println("---------- 2 : Master to Tail content----------");
         UTHAPS::println("updateTime = ", canMasterToRight.updateTime);
@@ -107,7 +110,7 @@ void loop() {
         // }
     // }
     // UTHAPS::println("receive state",canMasterToRight.receive_state,mip.receive_state,imp.receive_state);
-    // loopCount++ ;
+    loopCount++ ;
     if (loopCount == 5){
         loopCount = 0;
     }

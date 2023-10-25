@@ -4,6 +4,7 @@
 #include "CANpack.hpp"
 #include "testCAN.hpp"
 #include <vector>
+#include <unordered_map>
 //--------------------------------------
 //   change here to switch read/send
 //--------------------------------------
@@ -16,7 +17,8 @@ CANpack canpack;
 void setup() {
     // delay(7000);
     Serial.println("Waiting for setup...");
-    canpack.CANsetup();
+    int ids[] = {CAN_ID_CENTERTOMASTER};
+    canpack.CANsetup(ids);
     Serial.println("CAN setup : COMPLETE");
 }
 
@@ -37,7 +39,7 @@ void loop() {
     canMasterToLeft.gravity[2] = 99.4f;
     canMasterToLeft.mode = 2.0f * (loopCount % 5 + 1);
     canMasterToLeft.receive_state = true;
-    // canpack.CANsend(CAN_ID_MASTERTORIGHT ,&canMasterToLeft);
+    canpack.CANsend(CAN_ID_MASTERTORIGHT ,&canMasterToLeft);
 
     canLeftToMaster.acc[0] =  1.1f * (loopCount % 5 + 1);
     canLeftToMaster.gyro[2] =  111.111f * (loopCount % 5 + 1);
@@ -63,7 +65,7 @@ void loop() {
     // std::copy(vec.begin(), vec.end(), sd.c);
     // canMasterToRight = sd.raw_data;
 
-    canpack.CANread();
+    canpack.CANread({CAN_ID_CENTERTOMASTER,CAN_ID_MASTERTORIGHT});
     if (IFDEBUG){
         // UTHAPS::println("---------- 0 : Master To IF content----------");
         // UTHAPS::println("attituded_dt = ",mip.attitude_dt);
@@ -128,3 +130,12 @@ void loop() {
 // decoded data -> cobsINF ??
 
 /// decoded_dataをていぎすると、message dataの最初に0がはいってしまい、cobsがうまくいかなくなってフリーズする　という仕組み。
+
+// // master
+// IF,L,C,R
+
+// // IF
+// Master , L,C,R
+
+// // Tail
+// Master 

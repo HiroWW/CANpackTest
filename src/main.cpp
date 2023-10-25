@@ -38,6 +38,9 @@ void loop() {
     canMasterToLeft.mode = 2.0f * (loopCount % 5 + 1);
     canMasterToLeft.receive_state = true;
     canpack.CANsend(CAN_ID_MASTERTORIGHT ,&canMasterToLeft);
+    // canpack.CANsend(CAN_ID_MASTERTORIGHT ,&canMasterToLeft);
+    // canpack.CANsend(CAN_ID_MASTERTORIGHT ,&canMasterToLeft);
+
     UTHAPS::println("TX SIZE",sizeof(canMasterToLeft));
 
     //--------------------------------------------------------------------------------------------------
@@ -69,13 +72,13 @@ void loop() {
         // UTHAPS::println("strain[3] = ", imp.strain[3]);
         // UTHAPS::println("strain[4] = ", imp.strain[4]);
 
-        // UTHAPS::println("---------- 2 : Master to Tail content----------");
-        // UTHAPS::println("updateTime = ", canMasterToRight.updateTime);
-        // UTHAPS::println("drCommand = ", canMasterToRight.drCommand);
-        // UTHAPS::println("deCommand = ", canMasterToRight.deCommand);
-        // UTHAPS::println("err state = ", canMasterToRight.err_state[1]);
-        // UTHAPS::println("gravity = ", canMasterToRight.gravity[2]);
-        // UTHAPS::println("canMasterToRight.mode = ", canMasterToRight.mode);
+        UTHAPS::println("---------- 2 : Master to Tail content----------");
+        UTHAPS::println("updateTime = ", canMasterToRight.updateTime);
+        UTHAPS::println("drCommand = ", canMasterToRight.drCommand);
+        UTHAPS::println("deCommand = ", canMasterToRight.deCommand);
+        UTHAPS::println("err state = ", canMasterToRight.err_state[1]);
+        UTHAPS::println("gravity = ", canMasterToRight.gravity[2]);
+        UTHAPS::println("canMasterToRight.mode = ", canMasterToRight.mode);
 
         UTHAPS::println("---------- EX : loop CNT ----------");
 
@@ -120,3 +123,5 @@ void loop() {
     // でもcobsにぶちこむとフリーズする　うんこ
 // msgdata -> decoded data OK
 // decoded data -> cobsINF ??
+
+/// decoded_dataをていぎすると、message dataの最初に0がはいってしまい、cobsがうまくいかなくなってフリーズする　という仕組み。

@@ -15,10 +15,9 @@ bool IFDEBUG = true;
 CANpack canpack;
 
 void setup() {
-    // delay(7000);
     Serial.println("Waiting for setup...");
     int ids[] = {CAN_ID_CENTERTOMASTER};
-    canpack.CANsetup(ids);
+    canpack.CANsetup(ids,sizeof(ids));
     Serial.println("CAN setup : COMPLETE");
 }
 
@@ -51,19 +50,6 @@ void loop() {
     UTHAPS::println("TX SIZE",sizeof(canMasterToLeft));
 
     //--------------------------------------------------------------------------------------------------
-//
-    // canLeftToMaster.acc = 
-
-    // union send_data_union {
-    //     // struct=>uint8_t c[256]変換用union
-    //     CAN::MasterToTail raw_data;
-    //     uint8_t c[256] = {};
-    // };
-    // send_data_union sd;
-
-    // std::vector<unsigned char> vec = canpack.CANread();
-    // std::copy(vec.begin(), vec.end(), sd.c);
-    // canMasterToRight = sd.raw_data;
 
     canpack.CANread({CAN_ID_CENTERTOMASTER,CAN_ID_MASTERTORIGHT});
     if (IFDEBUG){
@@ -72,6 +58,7 @@ void loop() {
         // UTHAPS::println("main_dt = ", mip.main_dt);
         // UTHAPS::println("control_dt = ", mip.control_dt);
 
+        UTHAPS::println("");
         UTHAPS::println("---------- 1 :Tail To Master content----------");
         UTHAPS::println("acc 0", canCenterToMaster.acc[0]);
         UTHAPS::println("gyro 2", canCenterToMaster.gyro[2]);
@@ -104,14 +91,6 @@ void loop() {
             }
         }
     }
-    // while(ACAN_T4::can1.receive(message)){
-        // canpack.CANread(message);
-        // UTHAPS::println("receive state",canMasterToRight.receive_state,mip.receive_state,imp.receive_state);
-        // if (canMasterToRight.receive_state,mip.receive_state,imp.receive_state){
-        //     break;
-        // }
-    // }
-    // UTHAPS::println("receive state",canMasterToRight.receive_state,mip.receive_state,imp.receive_state);
     loopCount++ ;
     if (loopCount == 5){
         loopCount = 0;

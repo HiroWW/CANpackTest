@@ -17,11 +17,12 @@ CANpack canpack;
 void setup() {
     Serial.println("Waiting for setup...");
     int ids[] = {CAN_ID_CENTERTOMASTER};
-    canpack.CANsetup(ids,sizeof(ids));
+    canpack.CANsetup(ids,sizeof(ids),30);
     Serial.println("CAN setup : COMPLETE");
 }
 
 int loopCount = 0;
+int loopC = 0;
 void loop() {
 
     //--------------------------------------------------------------------------------------------------
@@ -38,12 +39,12 @@ void loop() {
     canMasterToLeft.gravity[2] = 99.4f;
     canMasterToLeft.mode = 2.0f * (loopCount % 5 + 1);
     canMasterToLeft.receive_state = true;
-    canpack.CANsend(CAN_ID_MASTERTORIGHT ,&canMasterToLeft);
+    // canpack.CANsend(CAN_ID_MASTERTORIGHT ,&canMasterToLeft);
 
     canLeftToMaster.acc[0] =  1.1f * (loopCount % 5 + 1);
     canLeftToMaster.gyro[2] =  111.111f * (loopCount % 5 + 1);
     canLeftToMaster.heading = 33.44f;
-    canpack.CANsend(CAN_ID_CENTERTOMASTER,&canLeftToMaster);
+    // canpack.CANsend(CAN_ID_CENTERTOMASTER,&canLeftToMaster);
     // canpack.CANsend(CAN_ID_MASTERTORIGHT ,&canMasterToLeft);
     // canpack.CANsend(CAN_ID_MASTERTORIGHT ,&canMasterToLeft);
 
@@ -51,8 +52,9 @@ void loop() {
 
     //--------------------------------------------------------------------------------------------------
 
-    canpack.CANread({CAN_ID_CENTERTOMASTER,CAN_ID_MASTERTORIGHT});
-    if (IFDEBUG){
+    canpack.CANread({CAN_ID_CENTERTOMASTER, CAN_ID_MASTERTORIGHT});
+
+    if (IFDEBUG && loopC % 50 == 0){
         // UTHAPS::println("---------- 0 : Master To IF content----------");
         // UTHAPS::println("attituded_dt = ",mip.attitude_dt);
         // UTHAPS::println("main_dt = ", mip.main_dt);
@@ -77,21 +79,8 @@ void loop() {
         UTHAPS::println("RX loop count is ",(canMasterToRight.updateTime / 11.1f - 1));
         UTHAPS::println("TX loop count is ", loopCount);
     }
-    if (! IFREAD){
-        CANMessage message;
-        UTHAPS::print("receive data ");
-        for (int i = 0; i < 12; i++){
-            if (ACAN_T4::can2.receive(message)){
-                UTHAPS::println("id", message.id);
-                for (int i = 0; i < 8; i++){
-                    // int dataCon = message.data[]
-                    UTHAPS::print(message.data[i], " ");
-                }
-                UTHAPS::println("");
-            }
-        }
-    }
     loopCount++ ;
+    loopC ++ ;
     if (loopCount == 5){
         loopCount = 0;
     }

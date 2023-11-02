@@ -44,15 +44,15 @@ void loop() {
     canLeftToMaster.acc[0] =  1.1f * (loopCount % 5 + 1);
     canLeftToMaster.gyro[2] =  111.111f * (loopCount % 5 + 1);
     canLeftToMaster.heading = 33.44f;
-    // canpack.CANsend(CAN_ID_CENTERTOMASTER,&canLeftToMaster);
-    // canpack.CANsend(CAN_ID_MASTERTORIGHT ,&canMasterToLeft);
+    canpack.CANsend(CAN_ID_CENTERTOMASTER,&canLeftToMaster);
+    canpack.CANsend(CAN_ID_MASTERTORIGHT ,&canMasterToLeft);
     // canpack.CANsend(CAN_ID_MASTERTORIGHT ,&canMasterToLeft);
 
-    UTHAPS::println("TX SIZE",sizeof(canMasterToLeft));
+    // UTHAPS::println("TX SIZE",sizeof(canMasterToLeft));
 
     //--------------------------------------------------------------------------------------------------
 
-    canpack.CANread({CAN_ID_CENTERTOMASTER, CAN_ID_MASTERTORIGHT});
+    // canpack.CANread({CAN_ID_CENTERTOMASTER, CAN_ID_MASTERTORIGHT});
 
     if (IFDEBUG && loopC % 50 == 0){
         // UTHAPS::println("---------- 0 : Master To IF content----------");
